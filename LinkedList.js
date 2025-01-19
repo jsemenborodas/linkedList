@@ -102,7 +102,7 @@ class LinkedList {
     generate(range) {
         let i = 0;
         while(i <= range) {
-            this.append(i);
+            this.append(toString(i));
             i++;
         }
     }
