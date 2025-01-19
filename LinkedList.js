@@ -12,18 +12,18 @@ class LinkedList {
         this.tail = null;
     }
 
-    saveToLocalStorage() {
-        const arr = this.toArray();
-        localStorage.setItem('linkedList', JSON.stringify(arr));
-    }
+    // saveToLocalStorage() {
+    //     const arr = this.toArray();
+    //     localStorage.setItem('linkedList', JSON.stringify(arr));
+    // }
 
-    loadFromLocalStorage() {
-        const data = JSON.parse(localStorage.getItem('linkedList'));
-        if (data) {
-            this.deleteAll();
-            data.forEach(item => this.append(item));
-        }
-    }
+    // loadFromLocalStorage() {
+    //     const data = JSON.parse(localStorage.getItem('linkedList'));
+    //     if (data) {
+    //         this.deleteAll();
+    //         data.forEach(item => this.append(item));
+    //     }
+    // }
 
     append(data) {
 
@@ -90,14 +90,13 @@ class LinkedList {
 
     toArray() {
         const arr = [];
-
         let currentNode = this.head;
         while(currentNode) {
             arr.push(currentNode);
             currentNode = currentNode.next;
         }
         console.log(arr)
-        return this;
+        return arr;
     }
 
     generate(range) {
@@ -106,6 +105,18 @@ class LinkedList {
             this.append(i);
             i++;
         }
+    }
+
+    saveData() {
+        localStorage.setItem('linkedList', JSON.stringify(this.toArray()));
+        console.log('save');
+        return this;
+    }
+
+    loadData() {
+        LL = localStorage.getItem('linkedList');
+        console.log(LL);
+        return this;
     }
     deleteByValue(value) {
         if (this.head == null) {
@@ -151,6 +162,8 @@ const buttons = `
 <button class = 'toConsole'>to Console</button>
 <button class = 'toArray'>toArray Console</button>
 <button class = 'generate'>Generate</button>
+<button class = 'saveData'>SaveData</button>
+<button class = 'loadData'>loadData</button>
 </div>`;
 
 const form = document.querySelector('.form');
@@ -169,11 +182,12 @@ createLinkedList.addEventListener('click', () => {
         createLinkedList.textContent = 'Создать Linked List'
         let buttons = document.querySelector('.buttons');
         buttons.remove();
-        LL = null
-        LL.saveToLocalStorage();
+        LL.deleteAll();
+        linkedListText.innerHTML = LL.print();
+        // LL.saveToLocalStorage();
     } else {
         LL = new LinkedList;
-        LL.loadFromLocalStorage();
+        // LL.loadFromLocalStorage();
         createLinkedList.classList.add('deactivated');
         createLinkedList.classList.remove('activated');
         createLinkedList.textContent = 'Удалить Linked List'
@@ -209,6 +223,10 @@ form.addEventListener('click', (event) => {
             linkedListText.innerHTML = LL.print();
             console.log('sheesh');
         }
+    } else if(event.target.classList.contains('saveData')){
+        this.saveData;
+    } else if(event.target.classList.contains('loadData')){
+        this.loadData();
     }
 })
 
