@@ -92,7 +92,7 @@ class LinkedList {
         const arr = [];
         let currentNode = this.head;
         while(currentNode) {
-            arr.push(currentNode);
+            arr.push(currentNode.data);
             currentNode = currentNode.next;
         }
         console.log(arr)
@@ -109,14 +109,21 @@ class LinkedList {
 
     saveData() {
         localStorage.setItem('linkedList', JSON.stringify(this.toArray()));
-        console.log('save');
-        return this;
+        console.log('here');
+    }
+
+    fromArray(data) {
+        data = JSON.parse(data);
+        for(let i = 0; i < data.length; i++) {
+            this.append(data[i]);
+        }
     }
 
     loadData() {
-        LL = localStorage.getItem('linkedList');
-        console.log(LL);
-        return this;
+        const data = localStorage.getItem('linkedList');
+        this.deleteAll();
+        this.fromArray(data);
+        console.log(data);
     }
     deleteByValue(value) {
         if (this.head == null) {
@@ -224,9 +231,10 @@ form.addEventListener('click', (event) => {
             console.log('sheesh');
         }
     } else if(event.target.classList.contains('saveData')){
-        this.saveData;
+        LL.saveData();
     } else if(event.target.classList.contains('loadData')){
-        this.loadData();
+        LL.loadData();
+        linkedListText.innerHTML = LL.print();
     }
 })
 
